@@ -5,6 +5,16 @@ Time series forecasting is typically performed using a variety of statistical ap
 
 Both univariate and multivariate models are examined. Holt-Winters seasonal smoothing and SARIMA are used for the univariate modelling. SARIMA and a linear model are used for the multivariate case, with temperature being the supplied supplementary variable. The data does not suggest that a VAR model is appropriate, but it is analyzed for comparative purposes.
 
+## Files
+These are the required files that should be stored in the same directory:
+* 2023-11-Elec-train.xlsx : Contains all electricity and outside temperature data for the building.
+* Data_Preparation.R : Imports and cleans the data. Extrapolation and feature creation is performed here. The model files automatically call this file and use the output data.
+* Model_HoltWinters.R : The univariate Holt-Winters model.
+* Model_Linear_Multivariate.R: The multivaraite linear model.
+* Model_SARIMA.R : The univariate SARIMA model
+* Model_SARIMA_Multivariate.R : The multivariate SARIMA model
+* Model_VAR_Multivariate.R: The multivariate VAR model.
+
 ## Methods
 An analysis of the data shows that the initial data contains 11 contiguous missing values on 18/02/2010 (day 49). A linear interpolation is used since it appears to be a good approximation (Figure 1a) . These values are used for both the modelling and the scoring. When used in the scoring it ensures that there is a penalization for a high deviation from the expected values.
 
@@ -52,7 +62,6 @@ The models are coded in the R language and are supplied in a single R script in 
 * Vectorial Auto-Regressive model (VAR)
 * Comparison of models & exportation of results
 * Cross validation, with default values for SARIMA set to (1,0,0)(1,1,0) to reduce computation
-
 
 ## Results
 Analysis of variance reveals that Temperature, Night, Wednesday, and Sunday are statistically relevant variables. The VAR model shows that the Night variable, however, is already implicitly included in the time data, since a noninvertible matrix is created when it is included. Night is effectively a linear combination of other variables and is thus excluded from all models. In the end, Wednesday and Sunday do not often improve the models in any meaningful way. These variables are thus sometimes dropped from the final selection of model parameters. The best model parameters are:
