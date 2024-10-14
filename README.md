@@ -21,6 +21,10 @@ data (all data from day 51)
 
 Once transformed into a time series, the distribution of the data is analyzed. The temperature data is essentially gaussian, however the power data is bimodal (Figure 1b). This is due to the lack of sufficient transitional values between high and low periods of the day. A Box-Cox transformation is not required for the temperature and is not adapted to the bimodal distribution of the power. As such, the data is left unmodified.
 
+![Alt text](/imgs/Figures_1a_1b.jpg?raw=true)
+
+&emsp;&emsp;&emsp;**Figure 1a: interpolation (in red) of missing data**&emsp;&emsp;&emsp;&emsp;&emsp;**Figure 1b: histogram of power & temperature**
+
 Cross validation is used to rate the different models with the exception of SARIMA, which suffers from very long computation times. The final model is generated with the training data set to the period from day 0 to the end of day 44, leaving 6 days for the test set.
 
 For the univariate approach, neither a linear model nor a VAR model are appropriate. A linear model does not perform well in general without extra correlated variables besides time, while a VAR model requires an extra variable by definition. Thus only the two typically best performing models are used: Holt-Winters and SARIMA, despite the bimodal power data violating the Gaussian assumptions of the latter. The auto-regression, moving average, and difference orders are quite high for SARIMA due to the 64-point period.
@@ -72,6 +76,10 @@ Analysis of variance reveals that Temperature, Night, Wednesday, and Sunday are 
   * Power, Temperature, Wednesday and Sunday selected (no optimization)
 
 A plot of the predictions is shown in Figure 2. Holt-Winters over-predicts the peak values when they are lower than usual, while the other models under-predict the high values. All models show a decent performance overall.
+
+![Alt text](/imgs/Figure2.jpg?raw=true)
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;**Figure 2: predictions of electricity demand over the test period**
 
 A look at the scores of the different models (Table 1) confirms a good overall performance, clearly with some slight difference between models. The scores for cross validation of SARIMA models is not available. This complicates the choice of best model. A cross validation of simpler SARIMA models is performed in the code, which confirms that it is at least stable.
 
